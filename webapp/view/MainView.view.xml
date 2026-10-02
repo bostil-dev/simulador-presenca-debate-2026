@@ -1,0 +1,28 @@
+<mvc:View controllerName="presenca.controller.MainView"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+    <Page id="page" title="{i18n>title}">
+        <Table fixedLayout="false" items="{/candidatos}">
+            <columns>
+                <Column >
+                    <Title text="" />
+                </Column>
+                <Column >
+                    <Title text="Nome" />
+                </Column>
+                <Column >
+                    <Title text="Confirmado?" />
+                </Column>
+            </columns>
+            <items>
+                <ColumnListItem >
+                    <cells>
+                        <Avatar displayShape="Square" src="{foto}"/>
+                        <ObjectIdentifier title="{nome}" text="{partido}" />
+                        <CheckBox selected="{confirmado}" enabled="{= ${bloqueado} ? false : true }"  select=".onConfirmarPresenca"/>
+                    </cells>
+                </ColumnListItem>
+            </items>
+        </Table>
+    </Page>
+</mvc:View>
