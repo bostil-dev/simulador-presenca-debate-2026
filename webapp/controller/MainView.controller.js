@@ -1,14 +1,17 @@
 sap.ui.define([
     "sap/ui/core/mvc/Controller",
-    "sap/ui/model/json/JSONModel"
+    "sap/ui/model/json/JSONModel",
+    "sap/m/MessageToast"
 ], (
     Controller, 
-    JSONModel
+    JSONModel,
+    MessageToast
 ) => {
     "use strict";
 
     return Controller.extend("presenca.controller.MainView", {
         _oModel: null,
+        _contador: 0,
 
         onInit() {
             this._oModel = new JSONModel({
@@ -49,8 +52,26 @@ sap.ui.define([
             if(oCandidato.id == 14){
                 this._oModel.setProperty("/candidatos/1/confirmado", !bConfirmado)
                 this._oModel.setProperty("/candidatos/1/bloqueado", bConfirmado)
-            }
-            
+                if (bConfirmado) {
+                    MessageToast.show("Fudeu! O Renan apareceu. O Flávio fugiu", {
+                        at: "CenterCenter"
+                    })
+                    this._contador++
+                    if (this._contador >= 3) {
+                        let candidatos = this._oModel.getProperty("/candidatos")
+                        candidatos = candidatos.map((candidato) => {
+                            candidato.confirmado = false
+                            candidato.bloqueado = true
+                            return candidato
+                        })
+                        this._oModel.setProperty("/candidatos", candidatos)
+                        MessageToast.show("O Flávio pediu e a Globo desistiu", {
+                            at: "CenterCenter"
+                        })
+                    }
+                }
+
+            }   
         }
     });
 });
